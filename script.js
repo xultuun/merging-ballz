@@ -6,7 +6,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const balls = [];
-const gravity = 0.3;
+const gravity = 0.5;
 const floorY = canvas.height - 150; // Tinggi garis pembatas
 
 let pickedBall = null;
@@ -32,9 +32,27 @@ document.body.appendChild(backgroundImage);
 // Audio
 const mergeSound = new Audio('merge.mp3');
 const fallSound = new Audio('fall.mp3');
-const backgroundMusic = new Audio('background.mp3');
 const clickSound = new Audio('click.mp3');
 
+const backgroundMusicList = [
+    'Pixel 1.mp3',
+    'Pixel 2.mp3',
+    'Pixel 3.mp3',
+    'Pixel 4.mp3',
+    'Pixel 5.mp3',
+    'Pixel 6.mp3',
+    'Pixel 7.mp3',
+    'Pixel 8.mp3',
+    'Pixel 9.mp3',
+    'Pixel 10.mp3',
+    'Pixel 11.mp3',
+    'Pixel 12.mp3'
+];
+
+let currentBackgroundMusicIndex = Math.floor(Math.random() * backgroundMusicList.length);
+let backgroundMusic = new Audio();
+
+backgroundMusic.volume = 0.75;
 backgroundMusic.loop = true;
 
 document.body.addEventListener('click', () => {
@@ -46,6 +64,18 @@ function playClickSound() {
     clickSound.currentTime = 0;
     clickSound.play();
 }
+
+// Pilih lagu random
+function chooseRandomBackgroundMusic() {
+    currentBackgroundMusicIndex = (currentBackgroundMusicIndex + 1) % backgroundMusicList.length;
+    backgroundMusic.src = backgroundMusicList[currentBackgroundMusicIndex];
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    chooseRandomBackgroundMusic();
+});
 
 // Event listener (bola diklik)
 canvas.addEventListener('click', function(event) {
@@ -134,7 +164,6 @@ function toggleMekButtonVisibility() {
 
     mekButton.style.display = showButton ? 'block' : 'none';
 
-    // contentEditableDiv setelah mengetik "MEKGAMING"
     if (showButton) {
         contentEditableDiv.style.display = 'none';
     }
